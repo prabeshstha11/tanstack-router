@@ -14,6 +14,9 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SubscriptionImport } from './routes/subscription'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as BlogIndexImport } from './routes/blog/index'
+import { Route as BlogPage2Import } from './routes/blog/page2'
+import { Route as BlogPage1Import } from './routes/blog/page1'
 
 // Create/Update Routes
 
@@ -32,6 +35,24 @@ const AboutRoute = AboutImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BlogIndexRoute = BlogIndexImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BlogPage2Route = BlogPage2Import.update({
+  id: '/blog/page2',
+  path: '/blog/page2',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BlogPage1Route = BlogPage1Import.update({
+  id: '/blog/page1',
+  path: '/blog/page1',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +81,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SubscriptionImport
       parentRoute: typeof rootRoute
     }
+    '/blog/page1': {
+      id: '/blog/page1'
+      path: '/blog/page1'
+      fullPath: '/blog/page1'
+      preLoaderRoute: typeof BlogPage1Import
+      parentRoute: typeof rootRoute
+    }
+    '/blog/page2': {
+      id: '/blog/page2'
+      path: '/blog/page2'
+      fullPath: '/blog/page2'
+      preLoaderRoute: typeof BlogPage2Import
+      parentRoute: typeof rootRoute
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +111,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/subscription': typeof SubscriptionRoute
+  '/blog/page1': typeof BlogPage1Route
+  '/blog/page2': typeof BlogPage2Route
+  '/blog': typeof BlogIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/subscription': typeof SubscriptionRoute
+  '/blog/page1': typeof BlogPage1Route
+  '/blog/page2': typeof BlogPage2Route
+  '/blog': typeof BlogIndexRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +130,30 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/subscription': typeof SubscriptionRoute
+  '/blog/page1': typeof BlogPage1Route
+  '/blog/page2': typeof BlogPage2Route
+  '/blog/': typeof BlogIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/subscription'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/subscription'
+    | '/blog/page1'
+    | '/blog/page2'
+    | '/blog'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/subscription'
-  id: '__root__' | '/' | '/about' | '/subscription'
+  to: '/' | '/about' | '/subscription' | '/blog/page1' | '/blog/page2' | '/blog'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/subscription'
+    | '/blog/page1'
+    | '/blog/page2'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +161,18 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   SubscriptionRoute: typeof SubscriptionRoute
+  BlogPage1Route: typeof BlogPage1Route
+  BlogPage2Route: typeof BlogPage2Route
+  BlogIndexRoute: typeof BlogIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   SubscriptionRoute: SubscriptionRoute,
+  BlogPage1Route: BlogPage1Route,
+  BlogPage2Route: BlogPage2Route,
+  BlogIndexRoute: BlogIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +187,10 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
-        "/subscription"
+        "/subscription",
+        "/blog/page1",
+        "/blog/page2",
+        "/blog/"
       ]
     },
     "/": {
@@ -128,6 +201,15 @@ export const routeTree = rootRoute
     },
     "/subscription": {
       "filePath": "subscription.tsx"
+    },
+    "/blog/page1": {
+      "filePath": "blog/page1.tsx"
+    },
+    "/blog/page2": {
+      "filePath": "blog/page2.tsx"
+    },
+    "/blog/": {
+      "filePath": "blog/index.tsx"
     }
   }
 }

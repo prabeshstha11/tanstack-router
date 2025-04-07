@@ -5,5 +5,5 @@ export const Route = createFileRoute("/subscription")({
 });
 
 function RouteComponent() {
-    return <div>Hello "/subscription"!</div>;
+    return <div>This is subscription page</div>;
 }
